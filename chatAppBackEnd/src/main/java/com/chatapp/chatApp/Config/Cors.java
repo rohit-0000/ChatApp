@@ -28,7 +28,7 @@ public class Cors {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of(frontEndLocal));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "*"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

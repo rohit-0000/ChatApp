@@ -9,23 +9,20 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
+@CrossOrigin("http://localhost:5173")
 public class ChatController {
     @Autowired
     ChatRoomService chatRoomService;
-    @Autowired
-    private SimpMessagingTemplate simpleMessagingTemplate;
-
     @MessageMapping("/sendMessage/{roomId}")
-//    @SendTo("topic/room/{roomId}")
-//    public Message sendMessage(@DestinationVariable String roomId, @RequestBody Message message){
-    public Message sendMessage(@DestinationVariable String roomId, @Payload Message message){
-        System.out.println("📨 Received message for room " + roomId + " : " + message.getMessage());
+    @SendTo("/topic/room/{roomId}")
+    public Message sendMessage(@DestinationVariable String roomId,@RequestBody Message message){
         chatRoomService.sendMessage(roomId,message);
-        simpleMessagingTemplate.convertAndSend("/topic/room/"+roomId,message);
         return message;
     }
 }

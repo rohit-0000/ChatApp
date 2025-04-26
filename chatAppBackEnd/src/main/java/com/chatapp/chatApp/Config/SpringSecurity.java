@@ -30,9 +30,9 @@
         return http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(requests->requests
-                        .requestMatchers("/chat/**").permitAll()
+                        .requestMatchers("/chat/**", "/chat").permitAll()
                         .requestMatchers("/user/**").authenticated()
-                         .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
