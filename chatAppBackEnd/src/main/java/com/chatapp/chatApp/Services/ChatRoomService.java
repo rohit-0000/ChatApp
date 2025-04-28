@@ -73,7 +73,8 @@ public class ChatRoomService {
                     existingRoom.setDescription(chatRoom.getDescription());
 
                 chatRoomRepo.save(existingRoom);
-                userRepo.save(user);
+                user = userRepo.findById(user.getId())
+                        .orElseThrow(() -> new RuntimeException("User not found"));
                 return new ResponseEntity<>(user, HttpStatus.OK);
             }
         }
@@ -86,6 +87,7 @@ public class ChatRoomService {
         if(room.isEmpty()) {
             throw new RuntimeException("room id not found");
         }
+        messageRepo.save(message);
         room.get().getChat().add(message);
         chatRoomRepo.save(room.get());
     }

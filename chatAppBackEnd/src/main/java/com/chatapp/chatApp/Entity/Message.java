@@ -20,6 +20,8 @@ public class Message {
     @Id
     private ObjectId id;
     private ObjectId senderId;
+    private String senderName;
+    private String senderImg;
     private String message;
     private LocalDateTime time;
 
